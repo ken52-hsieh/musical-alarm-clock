@@ -1,0 +1,12 @@
+../Core/Src/ds1302.c:18:13:DS1302_Delay	2
+../Core/Src/ds1302.c:25:13:DS1302_SetGPIO_Output	1
+../Core/Src/ds1302.c:34:13:DS1302_SetGPIO_Input	1
+../Core/Src/ds1302.c:42:13:DS1302_WriteByte	2
+../Core/Src/ds1302.c:55:16:DS1302_ReadByte	3
+../Core/Src/ds1302.c:71:13:DS1302_WriteReg	1
+../Core/Src/ds1302.c:82:16:DS1302_ReadReg	1
+../Core/Src/ds1302.c:95:16:DEC2BCD	1
+../Core/Src/ds1302.c:96:16:BCD2DEC	1
+../Core/Src/ds1302.c:98:6:DS1302_Init	2
+../Core/Src/ds1302.c:104:6:DS1302_SetTime	1
+../Core/Src/ds1302.c:116:6:DS1302_GetTime	1

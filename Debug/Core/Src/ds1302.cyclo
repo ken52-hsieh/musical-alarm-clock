@@ -8,5 +8,5 @@
 ../Core/Src/ds1302.c:95:16:DEC2BCD	1
 ../Core/Src/ds1302.c:96:16:BCD2DEC	1
 ../Core/Src/ds1302.c:98:6:DS1302_Init	2
-../Core/Src/ds1302.c:104:6:DS1302_SetTime	1
-../Core/Src/ds1302.c:116:6:DS1302_GetTime	1
+../Core/Src/ds1302.c:116:6:DS1302_SetTime	1
+../Core/Src/ds1302.c:128:6:DS1302_GetTime	1

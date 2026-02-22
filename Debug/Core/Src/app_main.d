@@ -23,6 +23,7 @@ Core/Src/app_main.o: ../Core/Src/app_main.c ../Core/Inc/app_main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
+ ../Core/Inc/ds1302.h \
  D:/workspace/stm32/musical\ alarm\ clock/Drivers/OLED_SSD1306/ssd1306.h \
  D:/workspace/stm32/musical\ alarm\ clock/Drivers/OLED_SSD1306/ssd1306_conf.h \
  D:/workspace/stm32/musical\ alarm\ clock/Drivers/OLED_SSD1306/ssd1306_fonts.h \
@@ -53,6 +54,7 @@ Core/Src/app_main.o: ../Core/Src/app_main.c ../Core/Inc/app_main.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+../Core/Inc/ds1302.h:
 D:/workspace/stm32/musical\ alarm\ clock/Drivers/OLED_SSD1306/ssd1306.h:
 D:/workspace/stm32/musical\ alarm\ clock/Drivers/OLED_SSD1306/ssd1306_conf.h:
 D:/workspace/stm32/musical\ alarm\ clock/Drivers/OLED_SSD1306/ssd1306_fonts.h:

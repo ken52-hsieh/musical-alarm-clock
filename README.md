@@ -43,53 +43,53 @@
 ### Phase 1: 基礎顯示與時間 (Basic Display & Clock)
 **目標**: 驅動 OLED 與 RTC，並在螢幕上顯示正確的日期與時間。
 
-1.  **OLED 驅動整合**:
-    *   配置 `I2C1` (Fast Mode, 400kHz)。
-    *   移植 SSD1306 驅動庫。
-    *   實作 `OLED_Init()` 與 `OLED_ShowString()`。
-2.  **DS1302 驅動開發**:
-    *   配置 PB0, PB1, PB10 為 GPIO Output (PB1 需在讀取時切換為 Input)。
-    *   實作 `DS1302_WriteByte()` 與 `DS1302_ReadByte()`。
-    *   實作 `DS1302_SetTime()` 與 `DS1302_GetTime()`，處理 BCD 碼轉換。
-3.  **主迴圈整合**:
-    *   每秒讀取一次 RTC 時間。
-    *   格式化字串並更新 OLED 顯示 (Date, Time, Minute)。
+- [x] **OLED 驅動整合**:
+    - [x] 配置 `I2C1` (目前配置為 Standard Mode 100kHz)。
+    - [x] 移植 SSD1306 驅動庫。
+    - [x] 實作 `OLED_Init()` 與 `OLED_ShowString()`。
+- [x] **DS1302 驅動開發**:
+    - [x] 配置 PB0, PB1, PB10 為 GPIO Output (PB1 需在讀取時切換為 Input)。
+    - [x] 實作 `DS1302_WriteByte()` 與 `DS1302_ReadByte()`。
+    - [x] 實作 `DS1302_SetTime()` 與 `DS1302_GetTime()`，處理 BCD 碼轉換。
+- [x] **主迴圈整合**:
+    - [x] 每秒讀取一次 RTC 時間。
+    - [x] 格式化字串並更新 OLED 顯示 (Date, Time, Minute)。
 
 ### Phase 2: 互動與控制 (Interaction & Control)
 **目標**: 透過 UART 設定時間與鬧鐘，並建立鬧鐘觸發邏輯。
 
-1.  **UART 指令解析**:
-    *   開啟 `USART2` 接收中斷 (RXNE)。
-    *   實作 Ring Buffer 或 Line Buffer 接收字串。
-    *   設計指令集，例如：
+- [ ] **UART 指令解析**:
+    - [x] 初始化 `USART2` (TX `printf` 已完成)。
+    - [ ] 開啟接收中斷 (RXNE) 與實作 Ring Buffer。
+    - [ ] 設計指令集，例如：
         *   `SET TIME 2023-10-27 12:00:00`
         *   `SET ALARM 07:30`
-2.  **鬧鐘邏輯**:
-    *   建立全域變數 `AlarmTime`。
-    *   在主迴圈比對 `CurrentTime` 與 `AlarmTime`。
-    *   觸發時，暫時以開發板上的 LED (LD2) 閃爍作為驗證。
+- [ ] **鬧鐘邏輯**:
+    - [ ] 建立全域變數 `AlarmTime`。
+    - [ ] 在主迴圈比對 `CurrentTime` 與 `AlarmTime`。
+    - [ ] 觸發時，暫時以開發板上的 LED (LD2) 閃爍作為驗證。
 
 ### Phase 3: 音樂播放系統 (Audio System)
 **目標**: 鬧鐘觸發時，從 SD 卡讀取 WAV 檔案並透過 I2S DAC 播放。
 *(註：關於 SPI1 (SD Card) 與板載 LED (PA5) 及 JTAG (PB3) 的腳位衝突處理，將於此階段進行詳細配置與驗證)*
 
-1.  **SD 卡與檔案系統**:
-    *   配置 `SPI1`。
-    *   移植 **FatFs** Middleware。
-    *   實作 `user_diskio.c` 中的底層 SPI 讀寫函式。
-    *   測試 `f_mount()` 與 `f_open()` 讀取測試檔案。
-2.  **I2S 與 DMA 配置**:
-    *   配置 `SPI2` 為 I2S Philips Mode, Master Transmit, 16-bit data [2]。
-    *   配置 `DMA1_Channel5` (SPI2_TX) 為 Circular Mode (或 Normal Mode 配合中斷切換)。
-    *   開啟 DMA Transfer Complete (TC) 與 Half Transfer (HT) 中斷。
-3.  **WAV 解析與播放**:
-    *   實作 `WAV_ParseHeader()`：讀取檔案前 44 bytes，確認 Sample Rate (如 44.1kHz) 與 Data Size。
-    *   **雙緩衝機制 (Ping-Pong Buffer)** [3]：
+- [ ] **SD 卡與檔案系統**:
+    - [ ] 配置 `SPI1`。
+    - [ ] 移植 **FatFs** Middleware。
+    - [ ] 實作 `user_diskio.c` 中的底層 SPI 讀寫函式。
+    - [ ] 測試 `f_mount()` 與 `f_open()` 讀取測試檔案。
+- [ ] **I2S 與 DMA 配置**:
+    - [ ] 配置 `SPI2` 為 I2S Philips Mode, Master Transmit, 16-bit data [2]。
+    - [ ] 配置 `DMA1_Channel5` (SPI2_TX) 為 Circular Mode (或 Normal Mode 配合中斷切換)。
+    - [ ] 開啟 DMA Transfer Complete (TC) 與 Half Transfer (HT) 中斷。
+- [ ] **WAV 解析與播放**:
+    - [ ] 實作 `WAV_ParseHeader()`：讀取檔案前 44 bytes，確認 Sample Rate (如 44.1kHz) 與 Data Size。
+    - [ ] **雙緩衝機制 (Ping-Pong Buffer)** [3]：
         *   定義兩個緩衝區 `Buffer_A` 與 `Buffer_B` (例如各 1024 bytes)。
         *   DMA 傳送 `Buffer_A` 時，CPU 讀取 SD 卡填滿 `Buffer_B`。
         *   DMA 完成 `Buffer_A` 後觸發中斷，切換至 `Buffer_B`，CPU 隨即填滿 `Buffer_A`。
-4.  **系統整合**:
-    *   鬧鐘觸發 -> `f_open("alarm.wav")` -> 解析 Header -> 設定 I2S 頻率 -> 啟動 DMA 播放。
+- [ ] **系統整合**:
+    - [ ] 鬧鐘觸發 -> `f_open("alarm.wav")` -> 解析 Header -> 設定 I2S 頻率 -> 啟動 DMA 播放。
 
 ---
 

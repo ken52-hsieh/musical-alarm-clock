@@ -7,6 +7,6 @@
 ../Core/Src/ds1302.c:82:16:DS1302_ReadReg	24	static
 ../Core/Src/ds1302.c:95:16:DEC2BCD	16	static
 ../Core/Src/ds1302.c:96:16:BCD2DEC	16	static
-../Core/Src/ds1302.c:98:6:DS1302_Init	16	static
-../Core/Src/ds1302.c:104:6:DS1302_SetTime	16	static
-../Core/Src/ds1302.c:116:6:DS1302_GetTime	16	static
+../Core/Src/ds1302.c:98:6:DS1302_Init	32	static
+../Core/Src/ds1302.c:116:6:DS1302_SetTime	16	static
+../Core/Src/ds1302.c:128:6:DS1302_GetTime	16	static

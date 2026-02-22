@@ -96,6 +96,18 @@ static uint8_t DEC2BCD(uint8_t dec) { return ((dec / 10) << 4) | (dec % 10); }
 static uint8_t BCD2DEC(uint8_t bcd) { return ((bcd >> 4) * 10) + (bcd & 0x0F); }
 
 void DS1302_Init(void) {
+    // 初始化 CE 與 SCLK 腳位為輸出模式
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    GPIO_InitStruct.Pin = RTC_CE_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(RTC_CE_GPIO_Port, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = RTC_SCLK_Pin;
+    HAL_GPIO_Init(RTC_SCLK_GPIO_Port, &GPIO_InitStruct);
+
     DS1302_WriteReg(CMD_CTRL_WP, 0x00); // 解除寫保護
     uint8_t sec = DS1302_ReadReg(CMD_READ_SEC);
     if (sec & 0x80) DS1302_WriteReg(CMD_WRITE_SEC, 0x00); // 啟動震盪器

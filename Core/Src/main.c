@@ -60,6 +60,12 @@ static void MX_I2C1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+// 重新導向 printf 到 UART2
+int __io_putchar(int ch)
+{
+  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
+  return ch;
+}
 /* USER CODE END 0 */
 
 /**
@@ -148,6 +154,9 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
+  /* 輸出系統時鐘到 PA8 (MCO Pin) 以供量測 debug */
+  HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_SYSCLK, RCC_MCODIV_1);
 }
 
 /**

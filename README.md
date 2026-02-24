@@ -15,10 +15,10 @@
 | **RTC** | GPIO | CE (RST) | PB0 | DS1302 Chip Select |
 | | | I/O (DAT) | PB1 | DS1302 Data |
 | | | SCLK (CLK)| PB10 | DS1302 Clock |
-| **SD Card** | SPI | SPI1_SCK | PA5 | MicroSD Card Clock |
+| **SD Card** | SPI | SPI1_SCK | PA5 | MicroSD Card Clock (Shared with LD2) |
 | | | SPI1_MISO | PA6 | MicroSD Card Data Out |
 | | | SPI1_MOSI | PA7 | MicroSD Card Data In |
-| | | CS | PA4 | Chip Select (Software Control) |
+| | | CS | PA4 | Chip Select (Software Control) [2] |
 | **Audio DAC** | I2S | I2S2_WS | PB12 | PCM5102A LRCK (Left/Right Clock) [1] |
 | | | I2S2_CK | PB13 | PCM5102A BCK (Bit Clock) |
 | | | I2S2_SD | PB15 | PCM5102A DIN (Data In) |
@@ -95,11 +95,16 @@
 
 ## 4. 技術註記 (Technical Notes)
 
-*   **[1] I2S Clock Source**:
-    STM32F103 系列沒有專用的 PLLI2S。I2S 的時鐘源來自 `SYSCLK`。為了產生準確的 44.1kHz 或 48kHz 取樣率，可能需要調整系統時鐘配置或接受些微的頻率誤差 (Pitch error)。PCM5102A 內建 PLL，可由 BCK 自動產生 MCLK，因此 STM32 端無需輸出 MCLK，簡化了 F103 的時鐘需求。
+*   **[1] I2S Clock Source & 3.072MHz Oscillator**:
+    STM32F103 系列沒有專用的 PLLI2S，I2S 時鐘源來自 `SYSCLK`。為了產生完美的 **48kHz** 取樣率，本專案採用 **3.072MHz 主動振盪器** 作為 HSE 輸入。
+    *   **Clock Tree 配置**: HSE (3.072MHz) -> PLL x16 -> **SYSCLK = 49.152MHz**。
+    *   **I2S 計算**: 49.152MHz / (48kHz * 16bit * 2ch * 2) = 16 (整數分頻)。
+    *   這消除了標準 72MHz 時鐘下的頻率誤差。PCM5102A 需配置為使用內部 PLL (SCK 接地)，僅需 STM32 提供 BCK 與 LRCK。
 
-*   **[2] SPI2 for I2S**:
-    在 STM32F103RB 上，`SPI1` 僅支援 SPI 模式，不支援 I2S。必須使用 `SPI2` 或 `SPI3` (若有) 來實現 I2S 通訊。
+*   **[2] SPI 資源分配**:
+    STM32F103RB (Medium Density) 只有兩組 SPI。
+    *   **SPI1**: 不支援 I2S，因此**必須**分配給 SD 卡。注意 PA5 同時連接板載 LED (LD2)，讀寫時 LED 閃爍為正常現象。
+    *   **SPI2**: 支援 I2S，因此**必須**分配給 PCM5102A (I2S2)。
 
 *   **[3] DMA & Memory**:
     STM32F103RB 只有 20KB SRAM。

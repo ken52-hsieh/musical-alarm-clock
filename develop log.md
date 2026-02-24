@@ -150,3 +150,77 @@ log的紀錄應該保持真實，不應該是重點摘要，所以請直接把�
 
 ### [2024-05-22 10:30] AI
 (Updated develop log.md to full transcript format)
+
+
+
+d:\workspace\stm32\musical alarm clock\develop log.md
+```diff
+--- d:\workspace\stm32\musical alarm clock\develop log.md
++++ d:\workspace\stm32\musical alarm clock\develop log.md
+@@ -107,3 +107,55 @@
+ 
+ ### [2024-05-22 10:30] AI
+ (Updated develop log.md to full transcript format)
++
++### [2024-05-22 10:35] User
++我將HSE從8Mhz 改為 3.072Mhz, 目前要確認整體表現是否正確
++
++### [2024-05-22 10:35] AI
++指導修改 `system_stm32f1xx.c` 中的 `HSE_VALUE` 為 3072000U。
++建議使用 MCO (PA8) 量測頻率，預期 SYSCLK 為 49.152MHz。
++
++### [2024-05-22 10:45] User
++印出的clock = 49152000, 正確
++實測PA8 pin, 量到了 sine wave 49.1xMHz!
++
++### [2024-05-22 10:45] AI
++確認系統時鐘驗證成功。
++修正 `system_stm32f1xx.c` 中重複定義的宏。
++建議關閉 MCO 輸出以降低干擾。
++
++### [2024-05-22 10:50] User
++回到開發流程上，接下來的步驟是甚麼
++
++### [2024-05-22 10:50] AI
++確認 Phase 1 完成。
++進入 **Phase 2: 互動與控制**。
++目標：實作 UART 接收中斷、Ring Buffer 與指令解析器。
++
++### [2024-05-22 11:00] User
++(實作 UART 接收功能)
++
++### [2024-05-22 11:00] AI
++提供 `stm32f1xx_hal_msp.c` (NVIC), `stm32f1xx_it.c` (IRQ Handler), `app_main.h` (RingBuffer struct), `app_main.c` (RX Callback & Parser) 的程式碼。
++
++### [2024-05-22 14:30] User
++3 error (huart2 undeclared in it.c)
++
++### [2024-05-22 14:30] AI
++修正 `stm32f1xx_it.c`，加入 `extern UART_HandleTypeDef huart2;`。
++
++### [2024-05-22 14:40] User
++OK，燒錄了，接著要怎麼測試功能性是否正確
++
++### [2024-05-22 14:40] AI
++提供測試步驟：
++1. 連接 Serial Terminal (115200, None, 1, None).
++2. 輸入 `HELP` 查看指令列表。
++3. 輸入 `TEST` 確認回應。
++
++### [2024-05-22 14:45] User
++測試都正常，開始下一步
++
++### [2024-05-22 14:45] AI
++下一步：實作 `SET TIME` 指令。
++修改 `app_main.c` 加入 `SET TIME YYMMDDHHMMSS` 的解析邏輯。
+
+### [2024-05-22 15:00] User
+1. develop log.md 仍然更新失敗，但我手動增加了
+2. 用 serial port 輸入 SET TIME 指令測試成功
+3. 指令是否能不限制大小寫
+4. 更新 README.md
+
+### [2024-05-22 15:00] AI
+確認 `SET TIME` 測試成功。
+說明目前的 `strcasecmp` 實作已支援大小寫不敏感，並補上 `<strings.h>` 標頭檔。
+更新 `README.md` 標記 Phase 2 UART 部分完成。

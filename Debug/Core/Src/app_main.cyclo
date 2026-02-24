@@ -1,2 +1,5 @@
-../Core/Src/app_main.c:17:6:App_Init	1
-../Core/Src/app_main.c:43:6:App_Loop	7
+../Core/Src/app_main.c:30:6:HAL_UART_RxCpltCallback	3
+../Core/Src/app_main.c:45:5:RB_Read	2
+../Core/Src/app_main.c:52:6:App_Init	1
+../Core/Src/app_main.c:83:6:App_Loop	6
+../Core/Src/app_main.c:132:6:Process_UART_Command	10

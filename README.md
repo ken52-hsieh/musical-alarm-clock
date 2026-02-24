@@ -60,8 +60,8 @@
 
 - [ ] **UART 指令解析**:
     - [x] 初始化 `USART2` (TX `printf` 已完成)。
-    - [ ] 開啟接收中斷 (RXNE) 與實作 Ring Buffer。
-    - [ ] 設計指令集，例如：
+    - [x] 開啟接收中斷 (RXNE) 與實作 Ring Buffer。
+    - [x] 設計指令集，例如：
         *   `SET TIME 2023-10-27 12:00:00`
         *   `SET ALARM 07:30`
 - [ ] **鬧鐘邏輯**:
